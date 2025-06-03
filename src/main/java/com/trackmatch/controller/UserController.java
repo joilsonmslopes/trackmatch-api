@@ -2,16 +2,16 @@ package com.trackmatch.controller;
 
 import com.trackmatch.dto.user.UserDTO;
 import com.trackmatch.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -21,5 +21,19 @@ public class UserController {
         List<UserDTO> userDTOS = userService.getAllUsers();
 
         return ResponseEntity.ok(userDTOS);
+    }
+
+    @GetMapping("/list/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable("id") long id) throws Exception {
+        UserDTO userFound = userService.getUserById(id);
+
+        return ResponseEntity.ok(userFound);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO user) {
+        UserDTO createdUser = userService.createUser(user);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 }
