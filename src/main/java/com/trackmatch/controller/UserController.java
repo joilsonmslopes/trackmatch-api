@@ -1,6 +1,7 @@
 package com.trackmatch.controller;
 
 import com.trackmatch.dto.user.UserDTO;
+import com.trackmatch.dto.user.UserPatchDTO;
 import com.trackmatch.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +36,14 @@ public class UserController {
         UserDTO createdUser = userService.createUser(user);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+    }
+
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<UserDTO> updateUserById(
+            @PathVariable("id") long id,
+            @RequestBody @Valid UserPatchDTO userDto) {
+        UserDTO user = userService.updateUserById(id, userDto);
+
+        return ResponseEntity.ok(user);
     }
 }
