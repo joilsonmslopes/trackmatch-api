@@ -1,5 +1,6 @@
 package com.trackmatch.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.trackmatch.domain.enums.EventStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Event {
+public class EventEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -40,8 +41,9 @@ public class Event {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User createdBy;
+    private UserEntity createdBy;
 
     @OneToMany(mappedBy = "event")
-    private List<Application> applications = new ArrayList<>();
+    @JsonIgnore
+    private List<ApplicationEntity> applications = new ArrayList<>();
 }

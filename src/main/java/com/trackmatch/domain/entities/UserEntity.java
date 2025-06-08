@@ -1,5 +1,6 @@
 package com.trackmatch.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.trackmatch.domain.enums.ProfileType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -50,6 +51,9 @@ public class User {
 
     private String bio;
 
-    @OneToMany(mappedBy = "createdBy")
-    private List<Event> events = new ArrayList<>();
+    private Boolean active = true;
+
+    @OneToMany(mappedBy = "createdBy", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<EventEntity> events = new ArrayList<>();
 }
