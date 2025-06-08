@@ -1,44 +1,28 @@
 package com.trackmatch.dto.user;
 
 import com.trackmatch.domain.entities.UserEntity;
-import org.springframework.stereotype.Component;
+import org.mapstruct.InheritInverseConfiguration;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 
-@Component
-public class UserMapper {
-    public UserDTO map(UserEntity userEntity) {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(userEntity.getId());
-        userDTO.setName(userEntity.getName());
-        userDTO.setBio(userEntity.getBio());
-        userDTO.setEmail(userEntity.getEmail());
-        userDTO.setPassword(userEntity.getPassword());
-        userDTO.setPhone(userEntity.getPhone());
-        userDTO.setCity(userEntity.getCity());
-        userDTO.setState(userEntity.getState());
-        userDTO.setInstruments(userEntity.getInstruments());
-        userDTO.setStyles(userEntity.getStyles());
-        userDTO.setProfileType(userEntity.getProfileType());
-        userDTO.setEvents(userEntity.getEvents());
+import java.util.List;
 
-        return userDTO;
-    }
+@Mapper(
+        componentModel = "spring",            // vira um bean do Spring
+        unmappedTargetPolicy = ReportingPolicy.IGNORE // silencia avisos de campos não mapeados
+)
+public interface UserMapper {
 
-    public UserEntity map(UserDTO userDTO) {
-        UserEntity userEntity = new UserEntity();
+    // ---------- Entity ➜ DTO ----------
+    UserDTO toDTO(UserEntity userEntity);
 
-        userEntity.setId(userDTO.getId());
-        userEntity.setName(userDTO.getName());
-        userEntity.setBio(userDTO.getBio());
-        userEntity.setEmail(userDTO.getEmail());
-        userEntity.setPassword(userDTO.getPassword());
-        userEntity.setPhone(userDTO.getPhone());
-        userEntity.setCity(userDTO.getCity());
-        userEntity.setState(userDTO.getState());
-        userEntity.setInstruments(userDTO.getInstruments());
-        userEntity.setStyles(userDTO.getStyles());
-        userEntity.setProfileType(userDTO.getProfileType());
-        userEntity.setEvents(userDTO.getEvents());
+    // Lista de entidades ➜ lista de DTOs
+    List<UserDTO> toDTOs(List<UserEntity> users);
 
-        return userEntity;
-    }
+    // ---------- DTO ➜ Entity ----------
+    @InheritInverseConfiguration
+    UserEntity toEntity(UserDTO userDTO);
+
+    // Lista de DTOs ➜ lista de entidades
+    List<UserEntity> toEntities(List<UserDTO> users);
 }
