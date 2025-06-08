@@ -48,4 +48,11 @@ public class UserService {
 
         return userMapper.toDTO(userEntity);
     }
+
+    public void deleteUserById(long id) {
+        UserEntity userFound = userRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(EntityType.USER, id));
+
+        userRepository.deleteById(userFound.getId());
+    }
 }
