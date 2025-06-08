@@ -48,6 +48,8 @@ public class UserDTO {
     @NotBlank(message = "Cidade é obrigatório")
     private String city;
 
+    private boolean active = true;
+
     @NotBlank(message = "Estado é obrigatório")
     private String state;
     private String bio;

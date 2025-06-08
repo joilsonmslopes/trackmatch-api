@@ -51,6 +51,8 @@ public class UserEntity {
 
     private String bio;
 
+    private Boolean active = true;
+
     @OneToMany(mappedBy = "createdBy", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<EventEntity> events = new ArrayList<>();
