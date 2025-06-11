@@ -1,7 +1,8 @@
 package com.trackmatch.controller;
 
-import com.trackmatch.dto.user.UserDTO;
+import com.trackmatch.dto.user.UserCreateDTO;
 import com.trackmatch.dto.user.UserPatchDTO;
+import com.trackmatch.dto.user.UserResponseDTO;
 import com.trackmatch.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,31 +19,31 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/list")
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        List<UserDTO> userDTOS = userService.getAllUsers();
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
+        List<UserResponseDTO> userCreateDTOS = userService.getAllUsers();
 
-        return ResponseEntity.ok(userDTOS);
+        return ResponseEntity.ok(userCreateDTOS);
     }
 
     @GetMapping("/list/{id}")
     public ResponseEntity<?> getUserById(@PathVariable("id") long id) throws Exception {
-        UserDTO userFound = userService.getUserById(id);
+        UserResponseDTO userFound = userService.getUserById(id);
 
         return ResponseEntity.ok(userFound);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO user) {
-        UserDTO createdUser = userService.createUser(user);
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserCreateDTO user) {
+        UserResponseDTO createdUser = userService.createUser(user);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<UserDTO> updateUserById(
+    public ResponseEntity<UserResponseDTO> updateUserById(
             @PathVariable("id") long id,
             @RequestBody @Valid UserPatchDTO userDto) {
-        UserDTO user = userService.updateUserById(id, userDto);
+        UserResponseDTO user = userService.updateUserById(id, userDto);
 
         return ResponseEntity.ok(user);
     }

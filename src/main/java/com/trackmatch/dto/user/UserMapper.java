@@ -1,28 +1,58 @@
 package com.trackmatch.dto.user;
 
+import com.trackmatch.domain.entities.ApplicationEntity;
+import com.trackmatch.domain.entities.EventEntity;
 import com.trackmatch.domain.entities.UserEntity;
-import org.mapstruct.InheritInverseConfiguration;
-import org.mapstruct.Mapper;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 
 import java.util.List;
 
 @Mapper(
-        componentModel = "spring",            // vira um bean do Spring
-        unmappedTargetPolicy = ReportingPolicy.IGNORE // silencia avisos de campos não mapeados
+        componentModel = "spring",
+        unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public interface UserMapper {
 
-    // ---------- Entity ➜ DTO ----------
-    UserDTO toDTO(UserEntity userEntity);
+    @Mapping(source = "applications", target = "applicationIds", qualifiedByName = "appId")
+    @Mapping(source = "events", target = "eventIds", qualifiedByName = "eventId")
+    UserResponseDTO toDTO(UserEntity userEntity);
 
-    // Lista de entidades ➜ lista de DTOs
-    List<UserDTO> toDTOs(List<UserEntity> users);
+    @Mapping(source = "applications", target = "applicationIds", qualifiedByName = "appId")
+    @Mapping(source = "events", target = "eventIds", qualifiedByName = "eventId")
+    List<UserResponseDTO> toDTOs(List<UserEntity> users);
 
-    // ---------- DTO ➜ Entity ----------
     @InheritInverseConfiguration
-    UserEntity toEntity(UserDTO userDTO);
+    @Mapping(source = "applicationIds", target = "applications", qualifiedByName = "idToApplication")
+    @Mapping(source = "eventIds", target = "events", qualifiedByName = "idToEvent")
+    UserEntity toEntity(UserCreateDTO userCreateDTO);
 
-    // Lista de DTOs ➜ lista de entidades
-    List<UserEntity> toEntities(List<UserDTO> users);
+    @Mapping(source = "applicationIds", target = "applications", qualifiedByName = "idToApplication")
+    @Mapping(source = "eventIds", target = "events", qualifiedByName = "idToEvent")
+    List<UserEntity> toEntities(List<UserCreateDTO> users);
+
+    @Named("idToApplication")
+    default ApplicationEntity idToApplication(Long id) {
+        if (id == null) return null;
+        ApplicationEntity app = new ApplicationEntity();
+        app.setId(id);
+        return app;
+    }
+
+    @Named("idToEvent")
+    default EventEntity idToEvent(Long id) {
+        if (id == null) return null;
+        EventEntity event = new EventEntity();
+        event.setId(id);
+        return event;
+    }
+
+    @Named("appId")
+    default Long applicationToId(ApplicationEntity app) {
+        return app == null ? null : app.getId();
+    }
+
+    @Named("eventId")
+    default Long eventToId(EventEntity app) {
+        return app.getId();
+    }
 }
