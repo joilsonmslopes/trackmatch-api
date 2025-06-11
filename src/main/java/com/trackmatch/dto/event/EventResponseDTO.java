@@ -1,7 +1,6 @@
 package com.trackmatch.dto.event;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.trackmatch.domain.entities.ApplicationEntity;
 import com.trackmatch.domain.enums.EventStatus;
 import lombok.*;
 
@@ -29,5 +28,5 @@ public class EventResponseDTO {
     private EventStatus status = EventStatus.OPEN;
 
     @Builder.Default
-    private List<ApplicationEntity> applications = new ArrayList<>();
+    private List<Long> applicationIds = new ArrayList<>();
 }
