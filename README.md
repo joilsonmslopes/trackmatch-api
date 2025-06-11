@@ -7,7 +7,7 @@
 ## ✨ O que é isto?
 
 **TrackMatch** é um MVP de recrutamento musical que demonstra boas práticas em **Java 21 + Spring Boot 3.5.0**.
-O projeto implementa CRUDs de músicos e gigs, validação robusta, regra de matching por instrumento/cidade, testes unitários e de integração, documentação OpenAPI.
+O projeto implementa CRUDs de músicos e gigs, validação robusta, regra de matching por instrumento/cidade, testes unitários e de integração.
 
 ---
 
@@ -64,8 +64,6 @@ src/
 * **Hibernate Validator** – [https://hibernate.org/validator/](https://hibernate.org/validator/)
 * **Banco H2** (embedado) – [https://www.h2database.com/](https://www.h2database.com/)
 * **Conventional Commits** – [https://www.conventionalcommits.org/](https://www.conventionalcommits.org/)
-* **OpenAPI / springdoc** – [https://springdoc.org/](https://springdoc.org/)
-* **JUnit 5** & **Mockito** – [https://junit.org/junit5/](https://junit.org/junit5/) | [https://site.mockito.org/](https://site.mockito.org/)
 
 ---
 
