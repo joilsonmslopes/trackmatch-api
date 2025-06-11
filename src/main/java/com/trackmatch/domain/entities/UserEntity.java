@@ -53,6 +53,10 @@ public class UserEntity {
 
     private Boolean active = true;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<ApplicationEntity> applications = new ArrayList<>();
+
     @OneToMany(mappedBy = "createdBy", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<EventEntity> events = new ArrayList<>();

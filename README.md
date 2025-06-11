@@ -18,8 +18,6 @@ O projeto implementa CRUDs de músicos e gigs, validação robusta, regra de mat
 | **JDK**                                  | 21                  | Nível de linguagem exigido pelo Spring Boot 3.x          |
 | **Maven Wrapper**                        | Embutido (`./mvnw`) | Compila e roda o projeto sem precisar de Maven instalado |
 | **Git**                                  | Latest              | Clonar e versionar o repositório                         |
-| *(Opcional)* **Docker + Docker Compose** | 24‑x                | Construir e executar a imagem (bônus)                    |
-
 > **Dica:** no Windows, use **WSL 2** ou Git Bash para que os scripts `./mvnw`/`./mvnw.cmd` funcionem corretamente.
 
 ---
@@ -36,29 +34,6 @@ $ ./mvnw spring-boot:run
 ```
 
 A API estará disponível em `http://localhost:8080`.
-
-### Smoke test rápido
-
-```bash
-curl -X GET http://localhost:8080/actuator/health
-```
-
-Saída esperada:
-
-```json
-{"status":"UP"}
-```
-
----
-
-## 🧪 Executando os testes
-
-```bash
-# Testes unitários + integração
-$ ./mvnw test
-```
-
-Um relatório JaCoCo será gerado em `target/site/jacoco/index.html` (o build falha se a cobertura ficar abaixo de 60 %).
 
 ---
 
