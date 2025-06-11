@@ -7,7 +7,7 @@
 ## ✨ O que é isto?
 
 **TrackMatch** é um MVP de recrutamento musical que demonstra boas práticas em **Java 21 + Spring Boot 3.5.0**.
-O projeto implementa CRUDs de músicos e gigs, validação robusta, regra de matching por instrumento/cidade, testes unitários e de integração, documentação OpenAPI e cobertura de código via JaCoCo – tudo containerizado e pronto para CI/CD.
+O projeto implementa CRUDs de músicos e gigs, validação robusta, regra de matching por instrumento/cidade, testes unitários e de integração, documentação OpenAPI.
 
 ---
 
