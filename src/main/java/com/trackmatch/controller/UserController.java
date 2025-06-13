@@ -25,11 +25,15 @@ public class UserController {
     private UserService userService;
 
     @Operation(
-            summary = "Rota para listagem de todos os usuário.",
-            description = "Essa rota lista todos os usuário cadastrados."
+            summary     = "Listar todos os usuários",
+            description = "Retorna uma lista paginada (e opcionalmente filtrada) de todos os usuários cadastrados."
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Lista de usuários retornada com sucesso.")
+            @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Parâmetros de consulta inválidos"),
+            @ApiResponse(responseCode = "401", description = "Usuário não autenticado"),
+            @ApiResponse(responseCode = "403", description = "Usuário não possui permissão"),
+            @ApiResponse(responseCode = "500", description = "Erro interno inesperado")
     })
     @GetMapping("/list")
     public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
@@ -39,12 +43,16 @@ public class UserController {
     }
 
     @Operation(
-            summary = "Rota para buscar um usuário por (id)",
-            description = "Essa rota retorna um usuário específico com base no (id) informado"
+            summary     = "Buscar usuário por ID",
+            description = "Retorna os detalhes completos do usuário identificado pelo **ID**."
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Usuário encontrado"),
-            @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
+            @ApiResponse(responseCode = "400", description = "ID inválido (formato incorreto)"),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado"),
+            @ApiResponse(responseCode = "401", description = "Usuário não autenticado"),
+            @ApiResponse(responseCode = "403", description = "Usuário não possui permissão"),
+            @ApiResponse(responseCode = "500", description = "Erro interno inesperado")
     })
     @GetMapping("/list/{id}")
     public ResponseEntity<?> getUserById(@PathVariable("id") long id) throws Exception {
@@ -54,17 +62,18 @@ public class UserController {
     }
 
     @Operation(
-            summary = "Rota para cadastro de um usuário",
-            description = "Essa rota é para criação de um novo usuário",
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Usuário cadastrado.",
-                    required = true,
-                    content = @Content(schema = @Schema(implementation = UserCreateDTO.class))
-            )
+            summary     = "Criar um novo usuário",
+            description = "Registra um usuário a partir do corpo da requisição (**JSON**). "
+                    + "Retorna **201 Created** com o objeto persistido."
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "Usuário cadastrado com sucesso!"),
-            @ApiResponse(responseCode = "400", description = "Dados inválidos."),
+            @ApiResponse(responseCode = "201", description = "Usuário criado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Dados do usuário inválidos"),
+            @ApiResponse(responseCode = "401", description = "Usuário não autenticado"),
+            @ApiResponse(responseCode = "403", description = "Usuário não possui permissão"),
+            @ApiResponse(responseCode = "409", description = "Conflito: e-mail já cadastrado ou outro dado único"),
+            @ApiResponse(responseCode = "422", description = "Regras de validação não atendidas"),
+            @ApiResponse(responseCode = "500", description = "Erro interno inesperado")
     })
     @PostMapping("/create")
     public ResponseEntity<?> createUser(@Valid @RequestBody UserCreateDTO user) {
@@ -74,18 +83,18 @@ public class UserController {
     }
 
     @Operation(
-            summary = "Rota para atualizar usuário pelo (id)",
-            description = "Essa rota permite atualizar os dados de um usuário existente",
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Dados atualizado do usuário.",
-                    required = true,
-                    content = @Content(schema = @Schema(implementation = UserPatchDTO.class))
-            )
+            summary     = "Atualizar usuário por ID",
+            description = "Atualiza parcialmente (PATCH) o usuário especificado pelo **ID** e devolve o objeto atualizado."
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Usuário atualizado com sucesso."),
-            @ApiResponse(responseCode = "404", description = "Usuário não encontrado."),
-            @ApiResponse(responseCode = "400", description = "Dados inválidos")
+            @ApiResponse(responseCode = "200", description = "Usuário atualizado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Dados do usuário ou ID inválidos"),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado"),
+            @ApiResponse(responseCode = "401", description = "Usuário não autenticado"),
+            @ApiResponse(responseCode = "403", description = "Usuário não possui permissão"),
+            @ApiResponse(responseCode = "409", description = "Conflito ao atualizar (ex.: e-mail duplicado)"),
+            @ApiResponse(responseCode = "422", description = "Regras de validação não atendidas"),
+            @ApiResponse(responseCode = "500", description = "Erro interno inesperado")
     })
     @PatchMapping("/update/{id}")
     public ResponseEntity<UserResponseDTO> updateUserById(
@@ -98,12 +107,17 @@ public class UserController {
     }
 
     @Operation(
-            summary = "Rota para deletar um usuário pelo (id)",
-            description = "Essa rota permite excluir um usuário com base no (id) informado"
+            summary     = "Excluir usuário por ID",
+            description = "Remove o usuário identificado pelo **ID**. Em caso de sucesso devolve **204 No Content**."
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Usuário deletado com sucesso."),
-            @ApiResponse(responseCode = "404", description = "Usuário não encontrado.")
+            @ApiResponse(responseCode = "204", description = "Usuário removido com sucesso"),
+            @ApiResponse(responseCode = "400", description = "ID inválido (formato incorreto)"),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado"),
+            @ApiResponse(responseCode = "401", description = "Usuário não autenticado"),
+            @ApiResponse(responseCode = "403", description = "Usuário não possui permissão"),
+            @ApiResponse(responseCode = "409", description = "Conflito: não foi possível excluir (dependências)"),
+            @ApiResponse(responseCode = "500", description = "Erro interno inesperado")
     })
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteUserById(@PathVariable("id") long id) {
