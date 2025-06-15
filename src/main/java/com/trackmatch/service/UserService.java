@@ -29,8 +29,16 @@ public class UserService {
         return userMapper.toDTO(user);
     }
 
+    public UserEntity getUserEntityById(long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(EntityType.USER, id));
+    }
+
     public UserResponseDTO createUser(UserCreateDTO dto) {
         UserEntity entityToSave = userMapper.toEntity(dto);
+
+        entityToSave.setActive(true);
+
         UserEntity saved = userRepository.save(entityToSave);
         return userMapper.toDTO(saved);
     }
