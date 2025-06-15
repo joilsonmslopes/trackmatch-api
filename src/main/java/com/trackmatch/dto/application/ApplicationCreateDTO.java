@@ -1,22 +1,17 @@
 package com.trackmatch.dto.application;
 
-import com.trackmatch.domain.enums.ApplicationStatus;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class ApplicationCreateDTO {
+    @NotNull(message = "O ID do usuário é obrigatório")
     private Long userId;
+
+    @NotNull(message = "O ID do evento é obrigatório")
     private Long eventId;
-
-    @Builder.Default
-    private ApplicationStatus status = ApplicationStatus.PENDING;
-
-    @Builder.Default
-    private LocalDateTime createdAt = LocalDateTime.now();
 }

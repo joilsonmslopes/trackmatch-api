@@ -17,14 +17,17 @@ import java.util.List;
 @Builder
 public class UserCreateDTO {
     @NotBlank(message = "Nome é obrigatório")
+    @NotNull(message = "Nome é obrigatório")
     @Size(message = "O nome deve conter pelo menos 3 caracteres", min = 3)
     private String name;
 
     @NotBlank(message = "E-mail é obrigatório")
+    @NotNull(message = "E-mail é obrigatório")
     @Email(message = "E-mail inválido")
     private String email;
 
     @NotBlank(message = "Senha é obrigatória")
+    @NotNull(message = "Senha é obrigatória")
     @Size(message = "A senha deve conter pelo menos 6 caracteres", min = 6)
     private String password;
 
@@ -32,18 +35,20 @@ public class UserCreateDTO {
     private ProfileType profileType;
 
     @NotBlank(message = "Celular é obrigatório")
+    @NotNull(message = "Celular é obrigatório")
     private String phone;
 
     @NotBlank(message = "Adicionar pelo menos 1 instrumento")
+    @NotNull(message = "Adicionar pelo menos 1 instrumento")
     private String instruments;
     private String styles;
 
     @NotBlank(message = "Cidade é obrigatório")
+    @NotNull(message = "Cidade é obrigatório")
     private String city;
 
-    private boolean active = true;
-
     @NotBlank(message = "Estado é obrigatório")
+    @NotNull(message = "Estado é obrigatório")
     private String state;
     private String bio;
 
