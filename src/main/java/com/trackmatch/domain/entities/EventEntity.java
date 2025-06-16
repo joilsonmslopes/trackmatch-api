@@ -28,7 +28,7 @@ public class EventEntity {
     private String description;
 
     @Column(nullable = false)
-    private LocalDateTime date;
+    private LocalDateTime scheduled_at;
 
     @Column(nullable = false)
     private String location;

@@ -18,7 +18,7 @@ public class EventResponseDTO {
     private Long id;
     private String title;
     private String description;
-    private LocalDateTime date;
+    private LocalDateTime scheduled_at;
     private String location;
     private String instrumentNeeded;
 

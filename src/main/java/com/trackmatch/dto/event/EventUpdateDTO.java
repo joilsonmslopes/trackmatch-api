@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class EventUpdateDTO {
     private String title;
     private String description;
-    private LocalDateTime date;
+    private LocalDateTime scheduled_at;
     private String location;
     private String instrumentNeeded;
     private EventStatus status;
