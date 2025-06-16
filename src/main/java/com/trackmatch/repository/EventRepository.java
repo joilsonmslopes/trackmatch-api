@@ -1,7 +1,14 @@
 package com.trackmatch.repository;
 
 import com.trackmatch.domain.entities.EventEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface EventRepository extends JpaRepository<EventEntity, Long> {
+import java.util.Optional;
+
+public interface EventRepository extends PagingAndSortingRepository<EventEntity, Long> {
+    Optional<EventEntity> findById(Long id);
+
+    EventEntity save(EventEntity eventEntity);
+
+    void deleteById(Long id);
 }

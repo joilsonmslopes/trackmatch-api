@@ -3,13 +3,16 @@ package com.trackmatch.service;
 import com.trackmatch.domain.entities.EventEntity;
 import com.trackmatch.domain.entities.UserEntity;
 import com.trackmatch.dto.event.*;
-import com.trackmatch.dto.user.UserResponseDTO;
+import com.trackmatch.dto.pagination.PageResponseDTO;
 import com.trackmatch.exception.EntityType;
 import com.trackmatch.exception.NotFoundException;
 import com.trackmatch.repository.EventRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EventService {
@@ -25,10 +28,19 @@ public class EventService {
         this.userService = userService;
     }
 
-    public List<EventResponseDTO> getAllEvents() {
-        List<EventEntity> eventEntities = eventRepository.findAll();
+    public PageResponseDTO<EventResponseDTO> getAllEvents(Pageable pageable) {
+        Page<EventEntity> page = eventRepository.findAll(pageable);
+        List<EventResponseDTO> content = page.getContent().stream()
+                .map(eventMapper::toDTO)
+                .collect(Collectors.toList());
 
-        return eventMapper.toDTOs(eventEntities);
+        return new PageResponseDTO<>(
+                content,
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalPages(),
+                page.getTotalElements()
+        );
     }
 
     public EventResponseDTO getEventById(Long id) {
