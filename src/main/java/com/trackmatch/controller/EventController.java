@@ -3,6 +3,7 @@ package com.trackmatch.controller;
 import com.trackmatch.dto.event.EventCreateDTO;
 import com.trackmatch.dto.event.EventResponseDTO;
 import com.trackmatch.dto.event.EventUpdateDTO;
+import com.trackmatch.dto.pagination.PageResponseDTO;
 import com.trackmatch.service.EventService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,8 +40,8 @@ public class EventController {
             @ApiResponse(responseCode = "500", description  = "Erro interno inesperado")
     })
     @GetMapping("/list")
-    public ResponseEntity<List<EventResponseDTO>> getAllEvents() {
-        List<EventResponseDTO> events = eventService.getAllEvents();
+    public ResponseEntity<PageResponseDTO<EventResponseDTO>> getAllEvents(Pageable pageable) {
+        PageResponseDTO<EventResponseDTO> events = eventService.getAllEvents(pageable);
         return ResponseEntity.ok(events);
     }
 
