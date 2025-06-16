@@ -22,7 +22,7 @@ public class EventCreateDTO {
     private String description;
 
     @NotNull(message = "A data do evento é obrigatória.")
-    private LocalDateTime date;
+    private LocalDateTime scheduled_at;
 
     @NotNull(message = "A localização do evento é obrigatória.")
     @NotBlank(message = "A localização do evento é obrigatória.")
